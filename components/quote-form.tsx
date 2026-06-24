@@ -21,11 +21,29 @@ const inputClass =
 export function QuoteForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle")
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setStatus("loading")
-    // Simulate request submission
-    setTimeout(() => setStatus("success"), 1200)
+
+    const formData = new FormData(e.currentTarget)
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (response.ok) {
+        setStatus("success")
+        e.currentTarget.reset() // Clear form after success
+      } else {
+        alert("Something went wrong. Please try again.")
+        setStatus("idle")
+      }
+    } catch (error) {
+      alert("Failed to send message. Please check your connection.")
+      setStatus("idle")
+    }
   }
 
   return (
@@ -70,6 +88,12 @@ export function QuoteForm() {
               </div>
             ) : (
               <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
+                {/* Hidden fields for Web3Forms */}
+                <input type="hidden" name="access_key" value="081259a6-ee42-4559-9184-883dc69450d3" />
+                <input type="hidden" name="subject" value="New Quote Request - Movior Transport" />
+                <input type="hidden" name="from_name" value="Movior Website" />
+                <input type="hidden" name="redirect" value="https://movior.co" />
+
                 {FIELDS.map((field) => (
                   <div key={field.name} className={cn(field.full && "sm:col-span-2")}>
                     <label htmlFor={field.name} className="mb-1.5 block text-sm font-medium text-foreground">
@@ -86,6 +110,7 @@ export function QuoteForm() {
                     />
                   </div>
                 ))}
+
                 <div className="sm:col-span-2">
                   <label htmlFor="details" className="mb-1.5 block text-sm font-medium text-foreground">
                     Project Details
@@ -98,6 +123,7 @@ export function QuoteForm() {
                     placeholder="Dimensions, weight, timeline, and any special requirements"
                   />
                 </div>
+
                 <div className="sm:col-span-2">
                   <Button type="submit" size="lg" className="w-full" disabled={status === "loading"}>
                     {status === "loading" ? (
