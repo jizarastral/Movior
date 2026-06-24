@@ -23,7 +23,7 @@ export function CeoMessage() {
             />
           </div>
           <div className="mt-5">
-            <div className="font-heading text-xl font-bold text-ink-foreground">Bassam Muhammed</div>
+            <div className="font-heading text-xl font-bold text-ink-foreground">Besam Muhammad</div>
             <div className="text-sm font-medium text-primary">Chief Executive Officer, Movior Transport LLC</div>
           </div>
         </div>
@@ -46,7 +46,7 @@ export function CeoMessage() {
             </p>
           </div>
           <div className="mt-8 border-l-2 border-primary pl-4">
-            <div className="font-heading text-lg font-bold text-ink-foreground">Bassam Muhammed</div>
+            <div className="font-heading text-lg font-bold text-ink-foreground">Besam Muhammad</div>
             <div className="text-sm text-ink-foreground/60">Chief Executive Officer · Movior Transport LLC</div>
           </div>
         </div>
