@@ -3,11 +3,11 @@ export const COMPANY = {
   shortName: "Movior Transport",
   tagline: "Driving Reliability. Delivering Excellence.",
   city: "Abu Dhabi, UAE",
-  email: "info@moviortransport.com",
-  phones: ["+971 50 687 8661", "+971 54 244 0760"],
+  email: "info@movior.co",
+  phones: ["+971 54 244 0760", "+971 50 687 8661"],
   // digits only for tel/whatsapp links
-  phoneLinks: ["+971506878661", "+971542440760"],
-  whatsapp: "971506878661",
+  phoneLinks: ["+971542440760", "+971506878661"],
+  whatsapp: "971542440760",
 } as const
 
 export const NAV_LINKS = [
