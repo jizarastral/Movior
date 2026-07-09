@@ -1,0 +1,19 @@
+# Render Web Service for Movior Transport (Next.js)
+# After connecting this repo in Render, enable Auto-Deploy on branch: main
+# Manual deploy: Dashboard → movior service → Manual Deploy → Clear build cache & deploy
+services:
+  - type: web
+    name: movior
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    autoDeployTrigger: commit
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm run start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
