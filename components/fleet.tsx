@@ -3,22 +3,22 @@ import { SectionHeading } from "@/components/section-heading"
 
 const FLEET = [
   {
-    image: "/fleet-lowbed.png",
+    image: "/fleet-lowbed.jpg",
     name: "Low-Bed Trailers",
     specs: ["3–7 axle configurations", "Up to 80T capacity", "Hydraulic ramps"],
   },
   {
-    image: "/fleet-flatbed.png",
+    image: "/fleet-flatbed.jpg",
     name: "Flatbed Trailers",
     specs: ["40ft & 48ft beds", "Versatile cargo", "Full lashing kit"],
   },
   {
-    image: "/fleet-heavytruck.png",
+    image: "/fleet-heavytruck.jpg",
     name: "Heavy-Duty Prime Movers",
     specs: ["High-torque tractors", "GPS tracked", "Euro-spec engines"],
   },
   {
-    image: "/fleet-projectcargo.png",
+    image: "/fleet-projectcargo.jpg",
     name: "Specialized & Project Cargo Units",
     specs: ["Modular transporters", "Oversized loads", "Escort-ready"],
   },
@@ -45,6 +45,7 @@ export function Fleet() {
                   src={unit.image}
                   alt={unit.name}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />

@@ -24,13 +24,13 @@ export const metadata: Metadata = {
   // Cache-bust query so browsers drop the old Vercel favicon after deploy
   icons: {
     icon: [
-      { url: '/favicon.ico?v=movior2', sizes: '48x48' },
-      { url: '/icon.svg?v=movior2', type: 'image/svg+xml' },
-      { url: '/icon-light-32x32.png?v=movior2', sizes: '32x32', type: 'image/png' },
-      { url: '/icon-192.png?v=movior2', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon.ico?v=movior3', sizes: '48x48' },
+      { url: '/icon.svg?v=movior3', type: 'image/svg+xml' },
+      { url: '/icon-light-32x32.png?v=movior3', sizes: '32x32', type: 'image/png' },
+      { url: '/icon-192.png?v=movior3', sizes: '192x192', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico?v=movior2',
-    apple: [{ url: '/apple-icon.png?v=movior2', sizes: '180x180', type: 'image/png' }],
+    shortcut: '/favicon.ico?v=movior3',
+    apple: [{ url: '/apple-icon.png?v=movior3', sizes: '180x180', type: 'image/png' }],
   },
 }
 
