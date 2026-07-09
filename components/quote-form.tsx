@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/section-heading"
 import { COMPANY } from "@/lib/site"
 
+/** Quote requests go to info@movior.co via FormSubmit (works on static hosting). */
+const QUOTE_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(COMPANY.email)}`
+
 export function QuoteForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -27,18 +30,26 @@ export function QuoteForm() {
     setError(null)
 
     try {
-      const res = await fetch("/api/quote", {
+      const res = await fetch(QUOTE_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim() || "Not provided",
+          message: formData.message.trim(),
+          _subject: `New quote request from ${formData.name.trim()}`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: formData.email.trim(),
+        }),
       })
 
-      const data = (await res.json().catch(() => ({}))) as { error?: string }
-
       if (!res.ok) {
-        setError(
-          data.error || "Could not send your request. Please try again or email us directly.",
-        )
+        setError("Could not send your request. Please try again or email us directly.")
         return
       }
 
