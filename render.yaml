@@ -14,6 +14,6 @@ services:
     healthCheckPath: /
     envVars:
       - key: NODE_VERSION
-        value: "22"
+        value: "20"
       - key: NODE_ENV
         value: production
