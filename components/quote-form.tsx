@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/section-heading"
+import { COMPANY } from "@/lib/site"
 
 export function QuoteForm() {
   const [formData, setFormData] = useState({
@@ -12,19 +13,43 @@ export function QuoteForm() {
     message: "",
   })
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+    if (error) setError(null)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, send data to your API or email service
-    console.log("Quote request:", formData)
-    setSubmitted(true)
-    // Reset form after submission
-    setFormData({ name: "", email: "", phone: "", message: "" })
-    setTimeout(() => setSubmitted(false), 5000)
+    setSubmitting(true)
+    setError(null)
+
+    try {
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      const data = (await res.json().catch(() => ({}))) as { error?: string }
+
+      if (!res.ok) {
+        setError(
+          data.error || "Could not send your request. Please try again or email us directly.",
+        )
+        return
+      }
+
+      setSubmitted(true)
+      setFormData({ name: "", email: "", phone: "", message: "" })
+      setTimeout(() => setSubmitted(false), 8000)
+    } catch {
+      setError("Could not send your request. Please try again or email us directly.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -39,7 +64,9 @@ export function QuoteForm() {
         {submitted ? (
           <div className="mt-8 rounded-2xl border border-green-500/30 bg-green-50 p-6 text-center text-green-700">
             <p className="text-lg font-semibold">Thank you for your request!</p>
-            <p className="mt-2 text-sm">We’ll review your details and contact you shortly.</p>
+            <p className="mt-2 text-sm">
+              We&apos;ll review your details and contact you shortly at the email you provided.
+            </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-10 space-y-6">
@@ -52,9 +79,11 @@ export function QuoteForm() {
                 id="name"
                 name="name"
                 required
+                maxLength={200}
                 value={formData.name}
                 onChange={handleChange}
-                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                disabled={submitting}
+                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                 placeholder="Your full name"
               />
             </div>
@@ -68,9 +97,11 @@ export function QuoteForm() {
                 id="email"
                 name="email"
                 required
+                maxLength={320}
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                disabled={submitting}
+                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                 placeholder="you@example.com"
               />
             </div>
@@ -83,9 +114,11 @@ export function QuoteForm() {
                 type="tel"
                 id="phone"
                 name="phone"
+                maxLength={50}
                 value={formData.phone}
                 onChange={handleChange}
-                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                disabled={submitting}
+                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                 placeholder="+971 50 123 4567"
               />
             </div>
@@ -99,15 +132,26 @@ export function QuoteForm() {
                 name="message"
                 rows={5}
                 required
+                maxLength={5000}
                 value={formData.message}
                 onChange={handleChange}
-                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                disabled={submitting}
+                className="mt-1 w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                 placeholder="Describe the cargo, weight, dimensions, pickup/delivery locations, and any special requirements."
               />
             </div>
 
-            <Button type="submit" size="lg" className="w-full">
-              Send Quote Request
+            {error && (
+              <div className="rounded-xl border border-red-500/30 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}{" "}
+                <a href={`mailto:${COMPANY.email}`} className="font-semibold underline">
+                  {COMPANY.email}
+                </a>
+              </div>
+            )}
+
+            <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+              {submitting ? "Sending..." : "Send Quote Request"}
             </Button>
           </form>
         )}

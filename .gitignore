@@ -14,3 +14,9 @@ node_modules
 .next/
 .DS_Store
 .vercel
+*.tsbuildinfo
+
+# Local screenshots / debug captures
+Screenshot*.png
+icon on browser.png
+_debug*

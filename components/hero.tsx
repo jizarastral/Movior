@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { ArrowRight, Phone, Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { COMPANY } from "@/lib/site"
@@ -6,16 +5,23 @@ import { COMPANY } from "@/lib/site"
 export function Hero() {
   return (
     <section id="home" className="relative isolate flex min-h-[100svh] items-center overflow-hidden">
-      <Image
-        src="/hero-haulage.png"
-        alt="Movior Transport low-bed trailer carrying heavy machinery on a UAE highway"
-        fill
-        priority
-        className="object-cover"
-      />
-      {/* overlays */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/30" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/40" />
+      {/* Realistic highway truck footage (muted loop) */}
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/hero-truck-poster.jpg"
+        aria-hidden
+      >
+        <source src="/hero-truck-road.mp4" type="video/mp4" />
+      </video>
+
+      {/* overlays for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/75 to-ink/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-ink/45" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-28 pb-16 md:px-6 md:pt-32">
         <div className="max-w-3xl">

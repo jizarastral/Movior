@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { CheckCircle2 } from "lucide-react"
 
 const POINTS = [
@@ -13,14 +12,20 @@ export function About() {
     <section id="about" className="bg-background py-20 md:py-28">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
         <div className="relative">
-          <div className="overflow-hidden rounded-2xl shadow-xl">
-            <Image
-              src="/about-operations.png"
-              alt="Movior Transport fleet lined up in a UAE logistics yard"
-              width={720}
-              height={560}
-              className="h-full w-full object-cover"
-            />
+          <div className="overflow-hidden rounded-2xl shadow-xl ring-1 ring-border/60">
+            {/* Live highway traffic — trucks moving on the road */}
+            <video
+              className="aspect-[4/3] h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster="/about-highway-poster.jpg"
+              aria-label="Commercial trucks moving on a busy highway"
+            >
+              <source src="/about-highway.mp4" type="video/mp4" />
+            </video>
           </div>
           <div className="absolute -bottom-6 -right-2 hidden rounded-xl bg-primary px-6 py-5 text-primary-foreground shadow-lg md:block">
             <div className="font-heading text-3xl font-extrabold">28+</div>

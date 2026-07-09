@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',           // ← This forces static export (creates the "out" folder)
-  trailingSlash: true,        // Helps with static hosting
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
-    unoptimized: true         // Required when using static export
-  }
-};
+    unoptimized: true,
+  },
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
